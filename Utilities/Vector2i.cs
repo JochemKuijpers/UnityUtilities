@@ -98,11 +98,6 @@ namespace Utilities
             return new Vector2(a.x * s, a.y * s);
         }
 
-        public static Vector2i operator /(Vector2i a, int s)
-        {
-            return new Vector2i(a.x / s, a.y / s);
-        }
-
         public static Vector2 operator /(Vector2i a, float s)
         {
             return new Vector2(a.x / s, a.y / s);
