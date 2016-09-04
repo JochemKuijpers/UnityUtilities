@@ -2,23 +2,33 @@
 
 namespace Utilities
 {
-    public class Vector2i
+    public struct Vector2i
     {
         public int x;
         public int y;
 
-        public int sqrMagnitude {
-            get { return x * x + y * y; }
+        public int sqrMagnitude
+        {
+            get
+            {
+                return x * x + y * y;
+            }
         }
 
         public float magnitude
         {
-            get { return Mathf.Sqrt(sqrMagnitude); }
+            get
+            {
+                return Mathf.Sqrt(sqrMagnitude);
+            }
         }
 
         public Vector2 normalized
         {
-            get { return new Vector2(x, y).normalized; }
+            get
+            {
+                return ((Vector2) this).normalized;
+            }
         }
 
         public Vector2i(int x, int y)
@@ -105,22 +115,58 @@ namespace Utilities
 
         public static bool operator ==(Vector2i a, Vector2i b)
         {
-            return (a.x == b.x && a.y == b.y);
+            return a.Equals(b);
+        }
+
+        public static bool operator ==(Vector2i a, Vector2 b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator ==(Vector2 a, Vector2i b)
+        {
+            return b.Equals(a);
         }
 
         public static bool operator !=(Vector2i a, Vector2i b)
         {
-            return (a.x != b.x || a.y != b.y);
+            return !a.Equals(b);
         }
 
-        public override bool Equals(object obj) 
+        public static bool operator !=(Vector2i a, Vector2 b)
         {
-            Vector2i v = obj as Vector2i;
-            if (v != null)
+            return !a.Equals(b);
+        }
+
+        public static bool operator !=(Vector2 a, Vector2i b)
+        {
+            return !b.Equals(a);
+        }
+
+        public static explicit operator Vector2i(Vector2 a)
+        {
+            return new Vector2i((int) a.x, (int) a.y);
+        }
+
+        public static implicit operator Vector2(Vector2i a)
+        {
+            return new Vector2(a.x, a.y);
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other is Vector2i)
             {
+                Vector2i v = (Vector2i) other;
                 return (x == v.x && y == v.y);
             }
-            return base.Equals(obj);
+            if (other is Vector2)
+            {
+                Vector2 v = (Vector2) other;
+                return v.Equals((Vector2) this);
+            }
+
+            return false;
         }
 
         public override int GetHashCode()
